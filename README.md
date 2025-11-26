@@ -2,6 +2,24 @@
 
 Real-time collaborative code editor with AI autocomplete. Two developers can join the same room and code together instantly.
 
+## 🚀 Live Demo
+
+**Frontend Application:** https://codesync-frontend-rho.vercel.app/
+
+**Backend API:** https://web-production-e4870.up.railway.app/
+
+**Try the API:**
+- Create room: `POST https://web-production-e4870.up.railway.app/rooms/`
+- WebSocket: `wss://web-production-e4870.up.railway.app/ws/{room_id}`
+
+## 🚀 Live Demo
+
+**Backend API:** https://web-production-e4870.up.railway.app/
+
+**Try the API:**
+- Create room: `POST https://web-production-e4870.up.railway.app/rooms/`
+- WebSocket: `wss://web-production-e4870.up.railway.app/ws/{room_id}`
+
 ## Features
 - Room-based collaboration with unique IDs
 - Real-time code synchronization via WebSockets
