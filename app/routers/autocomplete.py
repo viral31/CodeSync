@@ -4,7 +4,7 @@ from app.models.response import ApiResponse
 from app.services.autocomplete_service import AutocompleteService
 from app.exceptions import ValidationException
 
-router = APIRouter(tags=["autocomplete"])
+router = APIRouter(prefix="/api/v1", tags=["autocomplete"])
 
 @router.post("/autocomplete", response_model=ApiResponse)
 def get_autocomplete(request: AutocompleteRequest):

@@ -6,7 +6,7 @@ from app.models.response import ApiResponse
 from app.services.room_service import RoomService
 from app.exceptions import DatabaseException
 
-router = APIRouter(prefix="/rooms", tags=["rooms"])
+router = APIRouter(prefix="/api/v1/rooms", tags=["rooms"])
 
 @router.post("/", response_model=ApiResponse)
 def create_room(room: RoomCreate, db: Session = Depends(get_db)):

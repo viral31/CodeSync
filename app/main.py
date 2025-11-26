@@ -41,7 +41,7 @@ app.add_exception_handler(RequestValidationError, validation_exception_handler)
 def startup_event():
     create_tables()
 
-@app.websocket("/ws/{room_id}")
+@app.websocket("/api/v1/ws/{room_id}")
 async def websocket_endpoint(websocket: WebSocket, room_id: str, db: Session = Depends(get_db)):
     await manager.connect(websocket, room_id)
     

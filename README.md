@@ -9,8 +9,8 @@ Real-time collaborative code editor with AI autocomplete. Two developers can joi
 **Backend API:** https://web-production-e4870.up.railway.app/
 
 **Try the API:**
-- Create room: `POST https://web-production-e4870.up.railway.app/rooms/`
-- WebSocket: `wss://web-production-e4870.up.railway.app/ws/{room_id}`
+- Create room: `POST https://web-production-e4870.up.railway.app/api/v1/rooms/`
+- WebSocket: `wss://web-production-e4870.up.railway.app/api/v1/ws/{room_id}`
 
 ## Features
 - Room-based collaboration with unique IDs
@@ -55,9 +55,9 @@ python run.py
 **Backend URL:** http://localhost:8000
 
 ## API Endpoints
-- `POST /rooms/` - Create room
-- `POST /autocomplete` - AI suggestions
-- `ws://localhost:8000/ws/{room_id}` - Real-time sync
+- `POST /api/v1/rooms/` - Create room
+- `POST /api/v1/autocomplete` - AI suggestions
+- `ws://localhost:8000/api/v1/ws/{room_id}` - Real-time sync
 
 ## AI Setup
 1. Copy `.env.example` to `.env`
@@ -121,8 +121,8 @@ The application uses **Google Gemini AI** for intelligent code suggestions:
 
 ## Usage
 1. Start server: `python run.py`
-2. Create room: `POST /rooms/`
-3. Connect via WebSocket: `ws://localhost:8000/ws/{room_id}`
+2. Create room: `POST /api/v1/rooms/`
+3. Connect via WebSocket: `ws://localhost:8000/api/v1/ws/{room_id}`
 4. Send code updates in real-time
 
 ## Limitations & Future
@@ -133,10 +133,10 @@ The application uses **Google Gemini AI** for intelligent code suggestions:
 ## Testing
 ```bash
 # API test
-curl -X POST http://localhost:8000/rooms/
+curl -X POST http://localhost:8000/api/v1/rooms/
 
 # WebSocket test
-# Use browser dev tools: ws://localhost:8000/ws/{room_id}
+# Use browser dev tools: ws://localhost:8000/api/v1/ws/{room_id}
 ```
 
 ## Project layout
