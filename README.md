@@ -11,26 +11,19 @@ Real-time collaborative code editor with AI autocomplete. Two developers can joi
 
 ## Tech Stack
 - **Backend:** FastAPI, WebSockets, PostgreSQL, SQLAlchemy
-- **Frontend:** React, Redux Toolkit, Axios
 - **AI:** Google Gemini API
 
 ## Quick Start
 
-**Requirements:** Python 3.12+, Node.js 16+, PostgreSQL
+**Requirements:** Python 3.12+, PostgreSQL
 
 ```bash
-# Backend
-cd backend
-python -m venv venv && venv\Scripts\activate
 pip install -r requirements.txt
-# Add GEMINI_API_KEY to .env file
+# Copy .env.example to .env and add your GEMINI_API_KEY
 python run.py
-
-# Frontend
-cd frontend && npm install && npm start
 ```
 
-**URLs:** Backend :8000, Frontend :3000
+**Backend URL:** http://localhost:8000
 
 ## API Endpoints
 - `POST /rooms/` - Create room
@@ -38,9 +31,10 @@ cd frontend && npm install && npm start
 - `ws://localhost:8000/ws/{room_id}` - Real-time sync
 
 ## AI Setup
-1. Get API key: [Google AI Studio](https://makersuite.google.com/app/apikey)
-2. Add to `.env`: `GEMINI_API_KEY=your_key`
-3. Restart server
+1. Copy `.env.example` to `.env`
+2. Get API key: [Google AI Studio](https://makersuite.google.com/app/apikey)
+3. Add your key to `.env`: `GEMINI_API_KEY=your_actual_key`
+4. Restart server
 
 **Features:** Context-aware suggestions, multi-language support, graceful fallback
 
@@ -74,22 +68,16 @@ curl -X POST http://localhost:8000/rooms/
 
 ```
 CodeSync/
-├── backend/
-│   ├── app/
-│   │   ├── routers/          # API endpoints
-│   │   ├── services/         # Business logic
-│   │   ├── models/           # Database models
-│   │   ├── database.py       # DB setup
-│   │   ├── websocket_manager.py  # WebSocket handling
-│   │   └── main.py          # Main FastAPI app
-│   ├── requirements.txt
-│   └── run.py               # Server startup
-├── frontend/
-│   ├── src/
-│   │   ├── components/       # React components
-│   │   ├── store/           # Redux stuff
-│   │   ├── services/        # API calls
-│   │   └── App.js
-│   └── package.json
+├── app/
+│   ├── routers/          # API endpoints
+│   ├── services/         # Business logic
+│   ├── models/           # Database models
+│   ├── middleware/       # Exception handlers
+│   ├── database.py       # DB setup
+│   ├── websocket_manager.py  # WebSocket handling
+│   └── main.py          # Main FastAPI app
+├── requirements.txt
+├── run.py               # Server startup
+├── Dockerfile
 └── README.md
 ```
