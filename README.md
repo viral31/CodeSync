@@ -125,10 +125,79 @@ The application uses **Google Gemini AI** for intelligent code suggestions:
 3. Connect via WebSocket: `ws://localhost:8000/api/v1/ws/{room_id}`
 4. Send code updates in real-time
 
-## Limitations & Future
-**Current:** Anonymous users, last-write-wins, no cursor tracking
+## Scaling & Architecture
 
-**Planned:** Operational transforms, user auth, syntax highlighting, Redis scaling, comprehensive tests
+### Current Implementation
+**WebSocket Management:**
+- **In-memory storage:** `Dict[str, List[WebSocket]]` for active connections
+- **Single server:** All connections handled by one FastAPI instance
+- **Room-based grouping:** Users join rooms by `room_id`, multiple users per room
+- **Real-time sync:** Direct WebSocket broadcasting within same server
+- **Persistent data:** Room content stored in PostgreSQL, survives disconnections
+
+**Current Capacity:**
+- ~1,000 concurrent WebSocket connections per server
+- ~100 active rooms simultaneously
+- Limited by single server memory and CPU
+
+**Limitations:**
+- No horizontal scaling (can't add more servers)
+- Connections lost on server restart
+- All users must connect to same server instance
+
+### Future Scaling Solutions
+
+**For 10,000+ concurrent users:**
+
+**1. Redis Message Broker**
+```python
+# Replace in-memory dict with Redis pub/sub
+import redis
+redis_client = redis.Redis()
+
+async def broadcast_to_room(room_id: str, message: dict):
+    await redis_client.publish(f"room:{room_id}", json.dumps(message))
+```
+
+**2. Load Balancer + Multiple Servers**
+```
+User A → Server 1 (room123)
+User B → Server 2 (room123)  # Different server, same room
+User C → Server 3 (room123)
+```
+
+**3. Distributed Connection Registry**
+```python
+# Store connection metadata in Redis
+connection_registry = {
+    "room123": ["server1:conn1", "server2:conn2", "server3:conn3"],
+    "room456": ["server1:conn4"]
+}
+```
+
+**4. Cross-Server Message Flow**
+```
+User types → Server 1 → Redis pub/sub → All servers → WebSocket broadcast
+```
+
+**Implementation Steps:**
+1. Replace `ConnectionManager.active_connections` with Redis
+2. Add Redis pub/sub for cross-server messaging
+3. Implement connection registry for room management
+4. Add load balancer with sticky sessions
+5. Handle server failures and reconnections
+
+**Expected Results:**
+- Support 10,000+ concurrent users
+- Horizontal scaling across multiple servers
+- Zero-downtime deployments
+- Fault tolerance and automatic failover
+
+## Current Limitations
+**WebSocket:** Single server, in-memory storage, no horizontal scaling
+**Features:** Anonymous users, last-write-wins, no cursor tracking
+
+**Planned:** Redis scaling, operational transforms, user auth, syntax highlighting, comprehensive tests
 
 ## Testing
 ```bash
